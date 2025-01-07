@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/* Add this rule to apply the font globally */
+body {
+    font-family: 'Caudex', 'Ubuntu', sans-serif; /* Apply the imported fonts */
+}
