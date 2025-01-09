@@ -1,6 +1,5 @@
 
-
-# Nimap Project
+#NIMAP-CART
 
 To test and run this project, open two terminals: one for the backend and another for the frontend.  
 
