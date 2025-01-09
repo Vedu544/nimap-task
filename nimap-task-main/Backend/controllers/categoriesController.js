@@ -129,7 +129,17 @@ const deleteCategory = async (req,res)=>{
                 message: "Category id is required",
             })
         }
+        //delete products which are related to this category
+        const deleteProductsResult = await db.query('DELETE FROM products WHERE category_id = ?', [deleteId])
+        // Check if any products were deleted
+        if (deleteProductsResult.affectedRows === 0) {
+            return res.status(404).send({
+                success: false,
+                message: "No products found for this category",
+            })
+        }
         const data  = await db.query('DELETE FROM category WHERE id=?',[deleteId])
+        
         if(!data){
             return res.status(404).send({
                 success: false,

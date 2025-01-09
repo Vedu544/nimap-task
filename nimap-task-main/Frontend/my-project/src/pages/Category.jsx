@@ -28,6 +28,24 @@ const Category = () => {
     price: "",
   });
 
+  const [categories, setCategories] = useState([]);
+
+  // Fetch categories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/v1/categories/");
+        if (response.data.success) {
+          setCategories(Array.isArray(response.data.data[0]) ? response.data.data[0] : []);
+          console.log("categories", categories);
+        }
+      } catch (error) {
+        console.log("Error fetching categories", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const addProduct = async () => {
     const name = document.getElementById("productName").value;
     const category = document.getElementById("productCategory").value;
@@ -223,10 +241,9 @@ const Category = () => {
                 onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}
               >
                 <option value="">Select Category</option>
-                <option value="gaming">Gaming</option>
-                <option value="premium">Premium</option>
-                <option value="midrange">Midrange</option>
-                <option value="budget">Budget</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>{category.name}</option>
+                ))}
               </select>
             </div>
 
@@ -321,10 +338,11 @@ const Category = () => {
                 }
               >
                 <option value="">Select Category</option>
-                <option value="gaming">Gaming</option>
-                <option value="premium">Premium</option>
-                <option value="midrange">Midrange</option>
-                <option value="budget">Budget</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
 

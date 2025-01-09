@@ -97,27 +97,16 @@ const createProduct = async(req,res)=>{
             })
         }
 
-        // Determine category_id based on the category
-        let category_id;
-        switch (category.toLowerCase()) {
-            case 'budget':
-                category_id = 101;
-                break;
-            case 'premium':
-                category_id = 102;
-                break;
-            case 'midrange':
-                category_id = 103;
-                break;
-            case 'gaming':
-                category_id = 104;
-                break;
-            default:
-                return res.status(400).send({
-                    success: false,
-                    message: "Invalid category",
-                });
+        // Fetch category_id from the category table
+        const categoryData = await db.query('SELECT id FROM category WHERE name = ?', [category]);
+        if (!categoryData || categoryData.length === 0) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid category",
+            });
         }
+        const category_id = categoryData[0][0].id; 
+        console.log(category_id)
 
         const data = await db.query('INSERT INTO products (name, category_id, category, price, image) VALUES (?,?,?,?,?)',[name, category_id, category, price, image])
         if(!data){
